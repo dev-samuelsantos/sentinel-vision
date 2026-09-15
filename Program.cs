@@ -1,0 +1,51 @@
+﻿Console.WriteLine("Sentinel inicado, bem vindo ao seu primeiro projeto");
+
+double confidenceThreshold = 0.90;
+
+List<Detection> detections = new List<Detection>();
+
+detections.Add(
+    new Detection("car", 0.60, 750, 400, 430, 220)
+);
+detections.Add(
+    new Detection("person", 0.91, 320, 150, 200, 480)
+);
+detections.Add(
+    new Detection("horse", 0.95, 300, 200, 350, 900)
+);
+detections.Add(
+    new Detection("super human", 0.99, 400, 150, 600, 800)
+);
+detections.Add(
+    new Detection("criminal", 0.30, 100, 200, 450, 300)
+);
+
+void PrintDetection (Detection detection)
+{
+    Console.WriteLine("Objeto: " + detection.Label);
+    Console.WriteLine("Confiança: " + detection.Confidence);
+    Console.WriteLine("Posição: " + "X:" + detection.X + " Y:" + detection.Y);
+    Console.WriteLine("Tamanho: " + detection.Width + "x" + detection.Height);
+    Console.WriteLine();
+}
+
+foreach (Detection detection in detections)
+{
+    int approvedCount = 0;
+    int rejectedCount = 0;
+
+        if (detection.Confidence >= confidenceThreshold) {
+            
+            approvedCount++;
+        PrintDetection(detection);
+        Console.WriteLine("Contabilidade de detecções aprovadas: " + approvedCount);
+    }
+        else
+    {
+            rejectedCount++;
+        Console.WriteLine("Contabilidade de detecções rejeitadas: " + rejectedCount);
+    }    
+}
+
+
+
