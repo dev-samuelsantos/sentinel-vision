@@ -31,9 +31,14 @@ void PrintDetection (Detection detection)
     Console.WriteLine();
 }
 
+bool IsDetectionApproved(Detection detection, double confidenceThreshold)
+{
+    return detection.Confidence >= confidenceThreshold;
+}
+
 foreach (Detection detection in detections)
 {
-        if (detection.Confidence >= confidenceThreshold) {
+        if (IsDetectionApproved (detection, confidenceThreshold)) {
             approvedCount++;
             PrintDetection(detection);
     }
