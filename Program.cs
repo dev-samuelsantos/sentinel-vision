@@ -1,6 +1,8 @@
 ﻿Console.WriteLine("Sentinel inicado, bem vindo ao seu primeiro projeto");
 
 double confidenceThreshold = 0.90;
+int approvedCount = 0;
+int rejectedCount = 0;
 
 List<Detection> detections = new List<Detection>();
 
@@ -31,21 +33,19 @@ void PrintDetection (Detection detection)
 
 foreach (Detection detection in detections)
 {
-    int approvedCount = 0;
-    int rejectedCount = 0;
-
         if (detection.Confidence >= confidenceThreshold) {
-            
             approvedCount++;
-        PrintDetection(detection);
-        Console.WriteLine("Contabilidade de detecções aprovadas: " + approvedCount);
+            PrintDetection(detection);
     }
         else
     {
-            rejectedCount++;
-        Console.WriteLine("Contabilidade de detecções rejeitadas: " + rejectedCount);
-    }    
+            rejectedCount++;  
+            Console.WriteLine("A detecção rejeitada foi: " + detection.Label);
+    }
 }
+
+Console.WriteLine("Contabilidade de detecções aprovadas: " + approvedCount);    
+Console.WriteLine("Contabilidade de detecções rejeitadas: " + rejectedCount);
 
 
 
