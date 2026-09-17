@@ -24,12 +24,12 @@ detections.Add(
 
 void PrintDetection (Detection detection)
 {
-    Console.WriteLine("Objeto: " + detection.Label);
-    Console.WriteLine("Confiança: " + detection.Confidence);
-    Console.WriteLine("Posição: " + "X:" + detection.X + " Y:" + detection.Y);
-    Console.WriteLine("Tamanho: " + detection.Width + "x" + detection.Height);
-    Console.WriteLine("Área: " + GetDetectionArea(detection) + " pixels²");
-    Console.WriteLine("Categoria de tamanho: " + GetDetectionSizeCategory(detection));
+    Console.WriteLine($"Objeto: {detection.Label} ");
+    Console.WriteLine($"Confiança: {detection.Confidence}");
+    Console.WriteLine($"Posição: X:{detection.X} Y:{detection.Y}");
+    Console.WriteLine($"Tamanho: {detection.Width} x {detection.Height}");
+    Console.WriteLine($"Área: {GetDetectionArea(detection)} pixels²");
+    Console.WriteLine($"Categoria de tamanho: {GetDetectionSizeCategory(detection)}");
     Console.WriteLine();
 }
 
@@ -43,24 +43,25 @@ int GetDetectionArea(Detection detection)
     return detection.Width * detection.Height;
 }
 
-string GetDetectionSizeCategory(Detection detection)
+DetectionSizeCategory GetDetectionSizeCategory(Detection detection)
 {
     int  area = GetDetectionArea(detection);
 
     if (area < 50000)
     {
-        return "small";
+        return DetectionSizeCategory.Small;
     }
     else if (area <= 150000)
     {
-        return "medium";
+        return DetectionSizeCategory.Medium;
     }
     else
     {
-        return "large";
+        return DetectionSizeCategory.Large;
     }
 
 }
+
 foreach (Detection detection in detections)
 {
         if (IsDetectionApproved (detection, confidenceThreshold))  {
@@ -76,6 +77,3 @@ foreach (Detection detection in detections)
 
 Console.WriteLine("Contabilidade de detecções aprovadas: " + approvedCount);    
 Console.WriteLine("Contabilidade de detecções rejeitadas: " + rejectedCount);
-
-
-

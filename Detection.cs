@@ -6,7 +6,6 @@ public class Detection
     public int Y {get; set;}
     public int Width {get; set;}
     public int Height {get; set;}
-
     public Detection (
         string label,
         double confidence,
@@ -23,5 +22,3 @@ public class Detection
         Height = height;
     }
 }
-
-
