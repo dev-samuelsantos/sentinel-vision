@@ -1,4 +1,4 @@
-﻿Console.WriteLine("Sentinel inicado, bem vindo ao seu primeiro projeto");
+﻿Console.WriteLine("Sentinel iniciado");
 
 double confidenceThreshold = 0.90;
 int approvedCount = 0;
@@ -28,6 +28,8 @@ void PrintDetection (Detection detection)
     Console.WriteLine("Confiança: " + detection.Confidence);
     Console.WriteLine("Posição: " + "X:" + detection.X + " Y:" + detection.Y);
     Console.WriteLine("Tamanho: " + detection.Width + "x" + detection.Height);
+    Console.WriteLine("Área: " + GetDetectionArea(detection) + " pixels²");
+    Console.WriteLine("Categoria de tamanho: " + GetDetectionSizeCategory(detection));
     Console.WriteLine();
 }
 
@@ -36,9 +38,32 @@ bool IsDetectionApproved(Detection detection, double confidenceThreshold)
     return detection.Confidence >= confidenceThreshold;
 }
 
+int GetDetectionArea(Detection detection)
+{
+    return detection.Width * detection.Height;
+}
+
+string GetDetectionSizeCategory(Detection detection)
+{
+    int  area = GetDetectionArea(detection);
+
+    if (area < 50000)
+    {
+        return "small";
+    }
+    else if (area <= 150000)
+    {
+        return "medium";
+    }
+    else
+    {
+        return "large";
+    }
+
+}
 foreach (Detection detection in detections)
 {
-        if (IsDetectionApproved (detection, confidenceThreshold)) {
+        if (IsDetectionApproved (detection, confidenceThreshold))  {
             approvedCount++;
             PrintDetection(detection);
     }
