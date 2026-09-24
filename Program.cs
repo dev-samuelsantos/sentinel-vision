@@ -33,6 +33,15 @@ void PrintDetection (Detection detection)
     Console.WriteLine();
 }
 
+bool IsHighPriorityDetection(Detection detection, double confidenceThreshold)
+{
+    if (IsDetectionApproved(detection, confidenceThreshold) && GetDetectionSizeCategory(detection) == DetectionSizeCategory.Large)
+    {
+        return true;
+    }
+    return false;
+}
+
 bool IsDetectionApproved(Detection detection, double confidenceThreshold)
 {
     return detection.Confidence >= confidenceThreshold;
