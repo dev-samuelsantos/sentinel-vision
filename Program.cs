@@ -2,6 +2,7 @@
 
 double confidenceThreshold = 0.90;
 int approvedCount = 0;
+int highPriority = 0;
 int rejectedCount = 0;
 
 List<Detection> detections = new List<Detection>();
@@ -35,11 +36,8 @@ void PrintDetection (Detection detection)
 
 bool IsHighPriorityDetection(Detection detection, double confidenceThreshold)
 {
-    if (IsDetectionApproved(detection, confidenceThreshold) && GetDetectionSizeCategory(detection) == DetectionSizeCategory.Large)
-    {
-        return true;
-    }
-    return false;
+    return IsDetectionApproved(detection, confidenceThreshold) && GetDetectionSizeCategory(detection) == DetectionSizeCategory.Large;
+
 }
 
 bool IsDetectionApproved(Detection detection, double confidenceThreshold)
@@ -82,7 +80,16 @@ foreach (Detection detection in detections)
             rejectedCount++;  
             Console.WriteLine("A detecção rejeitada foi: " + detection.Label);
     }
+        if (IsHighPriorityDetection (detection, confidenceThreshold))
+    {
+        highPriority++;
+    }
+        else
+    {
+        
+    }
 }
 
 Console.WriteLine("Contabilidade de detecções aprovadas: " + approvedCount);    
 Console.WriteLine("Contabilidade de detecções rejeitadas: " + rejectedCount);
+Console.WriteLine("Contabilidade de deteccções de alta prioridade é: " + highPriority);
