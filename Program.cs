@@ -1,4 +1,5 @@
 ﻿Console.WriteLine("Sentinel iniciado");
+DetectionService detectionService = new DetectionService();
 
 double confidenceThreshold = 0.90;
 int approvedCount = 0;
