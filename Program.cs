@@ -24,70 +24,33 @@ detections.Add(
     new Detection("criminal", 0.30, 100, 200, 450, 300)
 );
 
-void PrintDetection (Detection detection)
+void PrintDetection(Detection detection)
 {
     Console.WriteLine($"Objeto: {detection.Label} ");
     Console.WriteLine($"Confiança: {detection.Confidence}");
     Console.WriteLine($"Posição: X:{detection.X} Y:{detection.Y}");
     Console.WriteLine($"Tamanho: {detection.Width} x {detection.Height}");
-    Console.WriteLine($"Área: {GetDetectionArea(detection)} pixels²");
-    Console.WriteLine($"Categoria de tamanho: {GetDetectionSizeCategory(detection)}");
+    Console.WriteLine($"Área: {detectionService.GetDetectionArea(detection)} pixels²");
+    Console.WriteLine($"Categoria de tamanho: {detectionService.GetDetectionSizeCategory(detection)}");
     Console.WriteLine();
-}
-
-bool IsHighPriorityDetection(Detection detection, double confidenceThreshold)
-{
-    return IsDetectionApproved(detection, confidenceThreshold) && GetDetectionSizeCategory(detection) == DetectionSizeCategory.Large;
-
-}
-
-bool IsDetectionApproved(Detection detection, double confidenceThreshold)
-{
-    return detection.Confidence >= confidenceThreshold;
-}
-
-int GetDetectionArea(Detection detection)
-{
-    return detection.Width * detection.Height;
-}
-
-DetectionSizeCategory GetDetectionSizeCategory(Detection detection)
-{
-    int  area = GetDetectionArea(detection);
-
-    if (area < 50000)
-    {
-        return DetectionSizeCategory.Small;
-    }
-    else if (area <= 150000)
-    {
-        return DetectionSizeCategory.Medium;
-    }
-    else
-    {
-        return DetectionSizeCategory.Large;
-    }
-
 }
 
 foreach (Detection detection in detections)
 {
-        if (IsDetectionApproved (detection, confidenceThreshold))  {
-            approvedCount++;
-            PrintDetection(detection);
-    }
-        else
+    if (detectionService.IsDetectionApproved(detection, confidenceThreshold))
     {
-            rejectedCount++;  
-            Console.WriteLine("A detecção rejeitada foi: " + detection.Label);
+        approvedCount++;
+        PrintDetection(detection);
     }
-        if (IsHighPriorityDetection (detection, confidenceThreshold))
+    else
+    {
+        rejectedCount++;
+        Console.WriteLine("A detecção rejeitada foi: " + detection.Label);
+    }
+
+    if (detectionService.IsHighPriorityDetection(detection, confidenceThreshold))
     {
         highPriority++;
-    }
-        else
-    {
-        
     }
 }
 
