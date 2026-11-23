@@ -19,7 +19,22 @@ public class Detection
     }
     public int X {get; set;}
     public int Y {get; set;}
-    public int Width {get; set;}
+    private int width;
+
+    public int Width
+    {
+        get => width;
+        set
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(Width), value,
+                    "A largura deve ser maior que zero.");
+            }
+
+            width = value;
+        }
+    }
     public int Height {get; set;}
     public Detection (
         string label,

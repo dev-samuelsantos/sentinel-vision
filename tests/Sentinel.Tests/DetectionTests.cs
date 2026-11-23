@@ -3,6 +3,51 @@ namespace Sentinel.Tests;
 public class DetectionTests
 {
     [Theory]
+    [InlineData(1)]
+    [InlineData(200)]
+    public void Constructor_AcceptsPositiveWidth(int width)
+    {
+        var detection = new Detection("person", 0.95, 0, 0, width, 480);
+
+        Assert.Equal(width, detection.Width);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(int.MinValue)]
+    public void Constructor_RejectsNonPositiveWidth(int width)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(nameof(Detection.Width),
+            () => new Detection("person", 0.95, 0, 0, width, 480));
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(350)]
+    public void Width_CanBeUpdatedToPositiveValue(int width)
+    {
+        var detection = new Detection("person", 0.95, 0, 0, 200, 480);
+
+        detection.Width = width;
+
+        Assert.Equal(width, detection.Width);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(int.MinValue)]
+    public void Width_RejectsInvalidUpdateAndPreservesPreviousValue(int width)
+    {
+        var detection = new Detection("person", 0.95, 0, 0, 200, 480);
+
+        Assert.Throws<ArgumentOutOfRangeException>(nameof(Detection.Width),
+            () => detection.Width = width);
+        Assert.Equal(200, detection.Width);
+    }
+
+    [Theory]
     [InlineData(0.0)]
     [InlineData(0.95)]
     [InlineData(1.0)]
