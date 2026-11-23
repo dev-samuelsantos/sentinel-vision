@@ -4,6 +4,51 @@ public class DetectionTests
 {
     [Theory]
     [InlineData(1)]
+    [InlineData(480)]
+    public void Constructor_AcceptsPositiveHeight(int height)
+    {
+        var detection = new Detection("person", 0.95, 0, 0, 200, height);
+
+        Assert.Equal(height, detection.Height);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(int.MinValue)]
+    public void Constructor_RejectsNonPositiveHeight(int height)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(nameof(Detection.Height),
+            () => new Detection("person", 0.95, 0, 0, 200, height));
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(900)]
+    public void Height_CanBeUpdatedToPositiveValue(int height)
+    {
+        var detection = new Detection("person", 0.95, 0, 0, 200, 480);
+
+        detection.Height = height;
+
+        Assert.Equal(height, detection.Height);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(int.MinValue)]
+    public void Height_RejectsInvalidUpdateAndPreservesPreviousValue(int height)
+    {
+        var detection = new Detection("person", 0.95, 0, 0, 200, 480);
+
+        Assert.Throws<ArgumentOutOfRangeException>(nameof(Detection.Height),
+            () => detection.Height = height);
+        Assert.Equal(480, detection.Height);
+    }
+
+    [Theory]
+    [InlineData(1)]
     [InlineData(200)]
     public void Constructor_AcceptsPositiveWidth(int width)
     {

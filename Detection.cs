@@ -35,7 +35,22 @@ public class Detection
             width = value;
         }
     }
-    public int Height {get; set;}
+    private int height;
+
+    public int Height
+    {
+        get => height;
+        set
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(Height), value,
+                    "A altura deve ser maior que zero.");
+            }
+
+            height = value;
+        }
+    }
     public Detection (
         string label,
         double confidence,
